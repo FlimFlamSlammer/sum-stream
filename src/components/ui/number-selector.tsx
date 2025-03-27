@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import Display from "./ui/display";
+import Display from "./display";
 
 type NumberSelectorDTO = {
   number: number;
