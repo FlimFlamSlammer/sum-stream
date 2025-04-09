@@ -129,8 +129,20 @@ export default function Game() {
           </PlayingCard>
         </div>
       </div>
-      <div className="flex flex-row gap-3 justify-center">
-        {createPlayerCards()}
+      <div className="flex flex-col gap-3 items-center">
+        <Button
+          disabled={!canDoTurn}
+          onClick={() => {
+            setTurnOps([]);
+            setCanDoTurn(false);
+          }}
+          className="w-fit"
+        >
+          Cancel
+        </Button>
+        <div className="flex flex-row gap-3 justify-center">
+          {createPlayerCards()}
+        </div>
       </div>
     </div>
   );
