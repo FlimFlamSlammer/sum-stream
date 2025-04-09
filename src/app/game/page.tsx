@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CardDropDown from "@/components/ui/card-dropdown";
 import Display from "@/components/ui/display";
 import PlayingCard from "@/components/ui/playing-card";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export default function Game() {
   const {
@@ -23,8 +23,14 @@ export default function Game() {
     ((index: number, points: number[]) => number[])[]
   >([]);
   const [canDoTurn, setCanDoTurn] = useState(false);
+  let { current: previousAccumulator } = useRef(accumulator);
 
   function onNumberClickHandler(n: number, operation: Operation) {
+    if (!canDoTurn) {
+      previousAccumulator = accumulator;
+      setCanDoTurn(true);
+    }
+
     if (n == 0 && operation(2, 1).res == 0 /* modulo check */) {
       setTurnOps([
         ...turnOps,
@@ -42,7 +48,6 @@ export default function Game() {
         },
       ]);
     }
-    setCanDoTurn(true);
   }
 
   function doTurn(playerIndex: number) {
@@ -56,7 +61,6 @@ export default function Game() {
   }
 
   function createPlayerCards() {
-    console.log(playerPoints);
     return playerPoints.map((points, index) => {
       return (
         <Card key={index}>
@@ -135,6 +139,7 @@ export default function Game() {
           onClick={() => {
             setTurnOps([]);
             setCanDoTurn(false);
+            setAccumulator(previousAccumulator);
           }}
           className="w-fit"
         >
