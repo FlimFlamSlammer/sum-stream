@@ -30,11 +30,11 @@ export default function Game() {
     ((index: number, points: number[]) => number[])[]
   >([]);
   const [canDoTurn, setCanDoTurn] = useState(false);
-  let { current: previousAccumulator } = useRef(accumulator);
+  let [previousAccumulator, setPreviousAccumulator] = useState(accumulator);
 
   function onNumberClickHandler(n: number, operation: Operation) {
     if (!canDoTurn) {
-      previousAccumulator = accumulator;
+      setPreviousAccumulator(accumulator);
       setCanDoTurn(true);
     }
 
